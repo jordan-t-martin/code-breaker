@@ -9,17 +9,15 @@
 
 #include <time.h>
 #include <iostream>
-#include <random>
+#include <algorithm> 
 #include <vector>
 #include <string>
-
-using namespace std;
 
 // Creates a secret code that is 4 digits long and consists of unique digits only
 // Does this by shuffling the possible base 10 digits and selecting 4 of them
 int secret_code()
 {
-	vector<int> digits = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // Base 10 digits
+	std::vector<int> digits = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // Base 10 digits
 	// Shuffle digits, will take 4 out of 10
 	random_shuffle(digits.begin(), digits.end()); 
 
@@ -80,10 +78,10 @@ int user_input()
 	int guess;
 	while (1) 
 	{
-		cout << "Please enter a unique 4 digit guess for the code: ";
+		std::cout << "Please enter a unique 4 digit guess for the code: ";
 
 		// Validating that input is a valid integer.
-		if (cin >> guess)
+		if (std::cin >> guess)
 		{
 			// Validating that integer is 4 digits long.
 			if (count_digits(guess) == 4)
@@ -92,16 +90,16 @@ int user_input()
 				if (is_unique(guess))
 					return guess;
 				else
-					cout << "ERROR: Number does not have unique digits." << endl;
+					std::cout << "ERROR: Number does not have unique digits." << std::endl;
 			}
 			else
-				cout << "ERROR: Number is not 4 digits long." << endl;
+				std::cout << "ERROR: Number is not 4 digits long." << std::endl;
 		}
 		else
 		{
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "ERROR: Please enter a valid integer." << endl;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "ERROR: Please enter a valid integer." << std::endl;
 			continue;
 		}
 	}
@@ -113,8 +111,8 @@ int user_input()
 void report(int code, int answer)
 {
 	// Convert to strings to compare indices
-	string answer_string = to_string(code);
-	string code_string = to_string(answer);
+	std::string answer_string = std::to_string(code);
+	std::string code_string = std::to_string(answer);
 	int correct_num_index = 0, correct_num_only = 0;
 
 	// Check all combinations of indices for a match
@@ -132,8 +130,8 @@ void report(int code, int answer)
 		}
 	}
 
-	cout << "- Found " << correct_num_index << " digits guessed correctly!" << endl;
-	cout << "- Found " << correct_num_only << " correct numbers, but in the wrong place." << endl;
+	std::cout << "- Found " << correct_num_index << " digits guessed correctly!" << std::endl;
+	std::cout << "- Found " << correct_num_only << " correct numbers, but in the wrong place." << std::endl;
 }
 
 // Starts a new game of CodeBreaker with passcode provided
@@ -144,23 +142,23 @@ void new_game(int code)
 	int guess;
 	for (int i = 0; i < CHANCES; i++) 
 	{
-		cout << "--------------------\nChances left: " << CHANCES - i << endl;
+		std::cout << "--------------------\nChances left: " << CHANCES - i << std::endl;
 
 		guess = user_input(); // Take player guess
 		
 		if (guess == code)
 		{
-			cout << "Guessed the right code. You win!" << endl;
+			std::cout << "Guessed the right code. You win!" << std::endl;
 			return;
 		}
 		else 
 		{ 
-			cout << "That guess wasn't right." << endl;
+			std::cout << "That guess wasn't right." << std::endl;
 			report(guess, code); // Report on false guess
 		}
 	}
-	cout << "Out of chances. You lose!" << endl;
-	cout << "The code was: " << code << endl;
+	std::cout << "Out of chances. You lose!" << std::endl;
+	std::cout << "The code was: " << code << std::endl;
 }
 
 // Asks player if they want to play again.
@@ -170,10 +168,10 @@ bool play_again()
 	char answer;
 	while (1)
 	{
-		cout << "Wanna play again? Y/N" << endl;
+		std::cout << "Wanna play again? Y/N" << std::endl;
 
 		// Validating that input is a valid character
-		if (cin >> answer)
+		if (std::cin >> answer)
 		{
 			// Validating that character is either Y/N
 			if (answer == 'Y' || answer == 'y')
@@ -181,13 +179,13 @@ bool play_again()
 			else if (answer == 'N' || answer == 'n')
 				return false;
 			else
-				cout << "ERROR: Character is not 'Y' or 'N'" << endl;
+				std::cout << "ERROR: Character is not 'Y' or 'N'" << std::endl;
 		}
 		else
 		{
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "ERROR: Please enter a valid character." << endl;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "ERROR: Please enter a valid character." << std::endl;
 			continue;
 		}
 	}
